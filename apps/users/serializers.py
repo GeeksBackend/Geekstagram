@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.contrib.auth import password_validation
 
 from apps.users.models import User
 from apps.posts.serializers import PostSerializer
@@ -33,7 +34,11 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         if attrs['password'] != attrs['confirm_password']:
-            raise serializers.ValidationError({'password' : 'Пароли отличаются'})
+            raise serializers.ValidationError({'password': 'Пароли отличаются'})
+        if attrs['username'] == attrs['password']:
+            raise serializers.ValidationError({'username':'Пароль похож на имя пользователя'})
+        # Используйте функцию validate_password, чтобы применить все валидаторы пароля.
+        password_validation.validate_password(attrs['password'], self.instance)
         return attrs
 
     def create(self, validated_data:dict):
