@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -47,7 +47,15 @@ INSTALLED_APPS = [
     #apps
     'apps.posts',
     'apps.users',
+
+    #admin
+    'jazzmin',
+    'django.contrib.admin',
 ]
+
+# JAZZMIN_UI_TWEAKS = {
+#     "theme": "cyborg",
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

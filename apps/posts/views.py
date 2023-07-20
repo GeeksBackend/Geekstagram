@@ -1,45 +1,35 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.viewsets import GenericViewSet
+from rest_framework import mixins
 
 from apps.posts.models import Post, PostLike, PostComment
-from apps.posts.serializers import PostSerializer, PostLikeSerializer, PostCommentSerializer
+from apps.posts.serializers import PostSerializer, PostLikeSerializer, PostCommentSerializer, PostDetailSerializer
 
 # Create your views here.
-class PostAPIView(ListAPIView):
+class PostAPIView(mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
+                  mixins.CreateModelMixin,
+                  mixins.UpdateModelMixin,
+                  mixins.DestroyModelMixin,
+                  GenericViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-class PostRetrieveAPI(RetrieveAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-class PostCreateAPI(CreateAPIView):
-    # queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-class PostUpdateAPI(UpdateAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-
-class PostDestroyAPI(DestroyAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return PostDetailSerializer 
+        return PostSerializer
 
 #PostLike
-class PostLikeCreateAPI(CreateAPIView):
-    serializer_class = PostLikeSerializer
-
-class PostLikeDestroyAPI(DestroyAPIView):
+class PostLikeAPIView(mixins.CreateModelMixin,
+                      mixins.DestroyModelMixin,
+                      GenericViewSet):
     queryset = PostLike.objects.all()
     serializer_class = PostLikeSerializer
 
 #PostComment
-class PostCommentCreateAPI(CreateAPIView):
-    serializer_class = PostCommentSerializer
-
-class PostCommentUpdateAPI(UpdateAPIView):
-    queryset = PostComment.objects.all()
-    serializer_class = PostCommentSerializer
-
-class PostCommentDestroyAPI(DestroyAPIView):
+class PostCommentAPIView(mixins.CreateModelMixin,
+                         mixins.UpdateModelMixin,
+                         mixins.DestroyModelMixin,
+                         GenericViewSet):
     queryset = PostComment.objects.all()
     serializer_class = PostCommentSerializer
