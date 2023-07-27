@@ -1,16 +1,16 @@
 from rest_framework import serializers
 
-from apps.posts.models import Post, PostLike, PostComment
+from apps.posts.models import Post, PostLike, PostComment, PostFavorite
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post 
+        model = Post
         fields = "__all__"
 
 class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post 
+        model = Post
         fields = ('id', 'title', 'description',
                   'image', 'created')
 
@@ -43,3 +43,8 @@ class PostDetailSerializer(serializers.ModelSerializer):
     
     def get_count_likes(self, obj):
         return obj.post_likes.all().count()
+
+class PostFavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostFavorite
+        fields = ('id', 'post')
