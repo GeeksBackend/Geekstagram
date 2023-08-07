@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     #apps
     'apps.posts',
     'apps.users',
+    'apps.telegram',
 
     #admin
     'jazzmin',
@@ -61,6 +62,8 @@ INSTALLED_APPS = [
 # JAZZMIN_UI_TWEAKS = {
 #     "theme": "cyborg",
 # }
+
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
